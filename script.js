@@ -50,7 +50,13 @@ const tictactoe = (function () {
   // Details: Directly related to the function above
   // as well as initializePlayers function.
 
-  // TODO (#3): visual indication of the board in console
+  // TODO (#3): An if statement in playTurn function
+  // to check if the user is inputting an index outside
+  // of the 0-8 range, if so, there should be console.log()
+  // warning them about it as well as the logic to reset their turn 
+  // right after.
+
+  // TODO (#4): visual indication of the board in console
   // Details: self-explanatory .
 
   // TODO (###): make the logic to create custom players
