@@ -1,3 +1,16 @@
+// TODO
+// #001: [HTML] Add a div id=gameBoard wth 9 cells, data-index from 0 to 8. 
+// #002: [HTML] Add button id=startGame.
+// #003: [HTML] Add Player 1 and 2 displays and their respective markers.
+// #004: [HTML] Add div id=gameStatus to display if the game is ongoing as well as Player 1 and 2 scores.
+// #005: [CSS]  Style aforementioned additions to suit my tastes.
+// #006: [JS]   Fetch the DOM elements.
+// #007: [JS]   Modify initializePlayers function to get values from input fields and not prompts.
+//              L modify div id=gameStatus to display whose turn it is.
+// #008: [JS]   Modify displayBoard function so it takes the indexes and values from within the array and reflects it onto the gameBoard element.
+// #009: [JS]   Modify playTurn function so it's based off event listeners.
+// #010: [JS]   Fetch startGame button from within the startGame function and link its functionality to it with event listeners. 
+
 const tictactoe = (function () {
   let players = [];
   let gameBoard = "";
@@ -240,16 +253,3 @@ const tictactoe = (function () {
     turn: playTurn,
   };
 })();
-
-// TODO
-// #001: [HTML] Add a div id=gameBoard wth 9 cells, data-index from 0 to 8. 
-// #002: [HTML] Add button id=startGame.
-// #003: [HTML] Add Player 1 and 2 displays and their respective markers.
-// #004: [HTML] Add div id=gameStatus to display if the game is ongoing as well as Player 1 and 2 scores.
-// #005: [CSS]  Style aforementioned additions to suit my tastes.
-// #006: [JS]   Fetch the DOM elements.
-// #007: [JS]   Modify initializePlayers function to get values from input fields and not prompts.
-//              L modify div id=gameStatus to display whose turn it is.
-// #008: [JS]   Modify displayBoard function so it takes the indexes and values from within the array and reflects it onto the gameBoard element.
-// #009: [JS]   Modify playTurn function so it's based off event listeners.
-// #010: [JS]   Fetch startGame button from within the startGame function and link its functionality to it with event listeners. 
