@@ -13,10 +13,6 @@ const tictactoe = (function () {
     let playerOneMarker = prompt(
       `Enter ${playerOneName || "Player 1"}'s marker.`
     );
-    let playerTwoName = prompt("Enter Player 2 name.");
-    let playerTwoMarker = prompt(
-      `Enter ${playerTwoName || "Player 2"}'s marker.`
-    );
 
     // Check if Player One marker is a string or not
     // if it's not, it'll default to "X"
@@ -49,6 +45,11 @@ const tictactoe = (function () {
       playerOneMarker = "X";
     }
 
+    let playerTwoName = prompt("Enter Player 2 name.");
+    let playerTwoMarker = prompt(
+      `Enter ${playerTwoName || "Player 2"}'s marker.`
+    );
+
     // Check if Player Two marker is a string or not
     // if it's not, it'll default to "O"
     // if it is, it will only take in the index 0 and capitalize it.
@@ -59,6 +60,14 @@ const tictactoe = (function () {
         );
         playerTwoMarker = "O";
       } else {
+        while (playerTwoMarker[0].toLowerCase() == playerOneMarker[0].toLowerCase()) {
+          console.log(
+            `${
+              playerTwoName || "Player 2"
+            }'s marker is the same as Player 1's, please re-enter a different marker.`
+          );
+          playerTwoMarker = prompt("Choose a new marker.")
+        }
         let char = playerTwoMarker[0].toUpperCase();
         if (char >= "A" && char <= "Z") {
           playerTwoMarker = char;
@@ -231,3 +240,16 @@ const tictactoe = (function () {
     turn: playTurn,
   };
 })();
+
+// TODO
+// #001: [HTML] Add a div id=gameBoard wth 9 cells, data-index from 0 to 8. 
+// #002: [HTML] Add button id=startGame.
+// #003: [HTML] Add Player 1 and 2 displays and their respective markers.
+// #004: [HTML] Add div id=gameStatus to display if the game is ongoing as well as Player 1 and 2 scores.
+// #005: [CSS]  Style aforementioned additions to suit my tastes.
+// #006: [JS]   Fetch the DOM elements.
+// #007: [JS]   Modify initializePlayers function to get values from input fields and not prompts.
+//              L modify div id=gameStatus to display whose turn it is.
+// #008: [JS]   Modify displayBoard function so it takes the indexes and values from within the array and reflects it onto the gameBoard element.
+// #009: [JS]   Modify playTurn function so it's based off event listeners.
+// #010: [JS]   Fetch startGame button from within the startGame function and link its functionality to it with event listeners. 
