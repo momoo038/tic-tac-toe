@@ -1,15 +1,5 @@
 // TODO
-// #001: [HTML] Add a div id=gameBoard wth 9 cells, data-index from 0 to 8. 
-// #002: [HTML] Add button id=startGame.
-// #003: [HTML] Add Player 1 and 2 displays and their respective markers.
-// #004: [HTML] Add div id=gameStatus to display if the game is ongoing as well as Player 1 and 2 scores.
-// #005: [CSS]  Style aforementioned additions to suit my tastes.
-// #006: [JS]   Fetch the DOM elements.
-// #007: [JS]   Modify initializePlayers function to get values from input fields and not prompts.
-//              L modify div id=gameStatus to display whose turn it is.
-// #008: [JS]   Modify displayBoard function so it takes the indexes and values from within the array and reflects it onto the gameBoard element.
-// #009: [JS]   Modify playTurn function so it's based off event listeners.
-// #010: [JS]   Fetch startGame button from within the startGame function and link its functionality to it with event listeners. 
+// #001: Make it so the scores carry over between round resets.
 
 const tictactoe = (function () {
   let players = [];
@@ -17,96 +7,44 @@ const tictactoe = (function () {
   let currentPlayer = "";
   let gameActive = true;
 
+  const board = document.querySelector("#gameBoard");
+  const boardCell = document.querySelectorAll(".cell");
+  const playerScore = document.querySelector("#playerScore");
+  const playerOneScore = document.querySelector(".playerScoreOne");
+  const playerTwoScore = document.querySelector(".playerScoreTwo");
+  const playerTurn = document.querySelector("#playerTurn");
+  const playerInit = document.querySelector("#player-init");
+  const startBtn = document.querySelector("#startGame");
+
   function createPlayer(name, marker, score) {
     return { name: name, marker: marker, score: score };
   }
 
   const initializePlayers = function () {
-    let playerOneName = prompt("Enter Player 1 name.");
-    let playerOneMarker = prompt(
-      `Enter ${playerOneName || "Player 1"}'s marker.`
-    );
+    const playerOneName =
+      document.querySelector("#player1Name").value || "Player 1";
+    const playerTwoName =
+      document.querySelector("#player2Name").value || "Player 2";
 
-    // Check if Player One marker is a string or not
-    // if it's not, it'll default to "X"
-    // if it is, it will only take in the index 0 and capitalize it.
-    if (typeof playerOneMarker === "string") {
-      if (playerOneMarker.length === 0) {
-        console.log(
-          `${playerOneName || "Player 1"}'s marker was empty, defaulting to "X"`
-        );
-        playerOneMarker = "X";
-      } else {
-        let char = playerOneMarker[0].toUpperCase();
-        if (char >= "A" && char <= "Z") {
-          playerOneMarker = char;
-        } else {
-          console.log(
-            `${
-              playerOneName || "Player 1"
-            }'s chosen marker is not a letter, defaulting to "X"`
-          );
-          playerOneMarker = "X";
-        }
-      }
-    } else {
-      console.log(
-        `${
-          playerOneName || "Player 1"
-        }'s marker input was cancelled, defaulting to "X"`
-      );
-      playerOneMarker = "X";
-    }
-
-    let playerTwoName = prompt("Enter Player 2 name.");
-    let playerTwoMarker = prompt(
-      `Enter ${playerTwoName || "Player 2"}'s marker.`
-    );
-
-    // Check if Player Two marker is a string or not
-    // if it's not, it'll default to "O"
-    // if it is, it will only take in the index 0 and capitalize it.
-    if (typeof playerTwoMarker === "string") {
-      if (playerTwoMarker.length === 0) {
-        console.log(
-          `${playerTwoName || "Player 2"}'s marker was empty, defaulting to "O"`
-        );
-        playerTwoMarker = "O";
-      } else {
-        while (playerTwoMarker[0].toLowerCase() == playerOneMarker[0].toLowerCase()) {
-          console.log(
-            `${
-              playerTwoName || "Player 2"
-            }'s marker is the same as Player 1's, please re-enter a different marker.`
-          );
-          playerTwoMarker = prompt("Choose a new marker.")
-        }
-        let char = playerTwoMarker[0].toUpperCase();
-        if (char >= "A" && char <= "Z") {
-          playerTwoMarker = char;
-        } else {
-          console.log(
-            `${
-              playerTwoName || "Player 2"
-            }'s chosen marker is not a letter, defaulting to "O"`
-          );
-          playerTwoMarker = "O";
-        }
-      }
-    } else {
-      console.log(
-        `${
-          playerTwoName || "Player 2"
-        }'s marker input was cancelled, defaulting to "O"`
-      );
-      playerTwoMarker = "O";
-    }
-
-    playerOneName = playerOneName || "Player 1";
-    playerTwoName = playerTwoName || "Player 2";
+    const playerOneMarker = "X";
+    const playerTwoMarker = "O";
 
     players[0] = createPlayer(playerOneName, playerOneMarker, 0);
     players[1] = createPlayer(playerTwoName, playerTwoMarker, 0);
+
+    currentPlayer = players[0];
+
+    if (playerTurn) {
+      playerTurn.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
+    }
+
+    if (playerOneScore) {
+      playerOneScore.textContent = `${players[0].name}'s score: ${players[0].score}`;
+    }
+
+    if (playerTwoScore) {
+      playerTwoScore.textContent = `${players[1].name}'s score: ${players[1].score}`;
+    }
 
     console.log("Players updated:");
     console.log(`${players[0].name} is P1 with marker ${players[0].marker}`);
@@ -122,24 +60,11 @@ const tictactoe = (function () {
       console.log("Board does not exist.");
       return;
     }
-    console.log("Game progress:");
-    console.log(
-      ` ${gameBoard[0] || "0"} | ${gameBoard[1] || "1"} | ${
-        gameBoard[2] || "2"
-      } `
-    );
-    console.log("---|---|---");
-    console.log(
-      ` ${gameBoard[3] || "3"} | ${gameBoard[4] || "4"} | ${
-        gameBoard[5] || "5"
-      } `
-    );
-    console.log("---|---|---");
-    console.log(
-      ` ${gameBoard[6] || "6"} | ${gameBoard[7] || "7"} | ${
-        gameBoard[8] || "8"
-      } `
-    );
+
+    boardCell.forEach((cell, index) => {
+      const displayMarker = gameBoard[index];
+      cell.textContent = displayMarker;
+    });
     console.log("");
   };
 
@@ -178,6 +103,7 @@ const tictactoe = (function () {
       return;
     }
     currentPlayer = currentPlayer === players[0] ? players[1] : players[0];
+    playerTurn.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
     console.log(currentPlayer.name + "'s turn now.");
   };
 
@@ -198,7 +124,6 @@ const tictactoe = (function () {
       console.log(currentPlayer.name + " marked square " + boardIndex);
       displayBoard();
 
-  
       const winnerResult = checkWinner();
       if (winnerResult) {
         gameActive = false;
@@ -211,6 +136,20 @@ const tictactoe = (function () {
           console.log(
             `Scores: ${players[0].name} - ${players[0].score}, ${players[1].name} - ${players[1].score}`
           );
+          playerOneScore.textContent = `${players[0].name}'s score:  ${players[0].score}`;
+          playerTwoScore.textContent = `${players[1].name}'s score:  ${players[1].score}`;
+
+          setTimeout(() => {
+            if (
+              confirm(
+                `${currentPlayer.name} won. \n\Do you want to play another round?`
+              )
+            ) {
+              startGame();
+            } else {
+              alert("Loser!");
+            }
+          });
         }
       } else {
         switchTurn();
@@ -226,16 +165,15 @@ const tictactoe = (function () {
     gameActive = true;
     initializePlayers();
 
-    if (players.length > 0 && players[0] && players[0].name) {
-      currentPlayer = players[0];
-      console.log("Game started!");
-      console.log(`${currentPlayer.name} goes first!`);
-      displayBoard();
-      console.log("Use tictactoe.turn(<index of the square>) to play!");
-    } else {
-      console.log("Players failed to initialize. Try again.");
-      gameActive = false;
-    }
+    displayBoard();
+
+    playerInit.style.display = "none";
+    board.style.display = "grid";
+    playerScore.style.display = "flex";
+    playerTurn.style.display = "block";
+    startBtn.style.display = "none";
+
+    console.log("Game started.");
   };
 
   return {
