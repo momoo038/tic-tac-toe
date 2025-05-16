@@ -150,6 +150,17 @@ const tictactoe = (function () {
         gameActive = false;
         if (winnerResult === "draw") {
           console.log("It's a draw!");
+          setTimeout(() => {
+            if (
+              confirm(
+                `It's a draw. \n\Do you want to play another round?`
+              )
+            ) {
+              startGame();
+            } else {
+              alert("Loser!");
+            }
+          });
         } else {
           console.log(`${currentPlayer.name} wins the game!`);
           console.log("Game over. Start a new game to play again.");
@@ -192,7 +203,10 @@ const tictactoe = (function () {
     board.style.display = "grid";
     playerScore.style.display = "flex";
     playerTurn.style.display = "block";
-    startBtn.style.display = "none";
+    startBtn.textContent = "Restart"
+    if (startBtn) {
+      startBtn.addEventListener("click", function() {location.reload()})
+    }
 
     console.log("Game started.");
   };
