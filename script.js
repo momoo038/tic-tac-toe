@@ -1,6 +1,3 @@
-// TODO
-// #001: Make it so the scores carry over between round resets.
-
 const tictactoe = (function () {
   let players = [];
   let gameBoard = "";
@@ -26,11 +23,35 @@ const tictactoe = (function () {
     const playerTwoName =
       document.querySelector("#player2Name").value || "Player 2";
 
-    const playerOneMarker = "X";
-    const playerTwoMarker = "O";
+    let playerOneMarker = document.querySelector("#player1Marker").value.trim();
+    let playerTwoMarker = document.querySelector("#player2Marker").value.trim();
 
-    players[0] = createPlayer(playerOneName, playerOneMarker, 0);
-    players[1] = createPlayer(playerTwoName, playerTwoMarker, 0);
+    if (playerOneMarker === "") {
+      playerOneMarker = "X";
+      document.querySelector("#player1Marker").value = "X";
+    }
+    if (playerTwoMarker === "") {
+      playerTwoMarker = "O";
+      document.querySelector("#player2Marker").value = "O";
+    }
+
+    if (playerOneMarker === playerTwoMarker) {
+      alert(
+        `Players cannot use the same marker ('${playerOneMarker}'). Player 2's marker will be changed.`
+      );
+      playerTwoMarker = (playerOneMarker === "X") ? "O" : "X";
+      document.querySelector("#player2Marker").value = playerTwoMarker;
+    }
+
+    if (!players || players.length === 0) {
+      players[0] = createPlayer(playerOneName, playerOneMarker, 0);
+      players[1] = createPlayer(playerTwoName, playerTwoMarker, 0);
+    } else {
+      players[0].name = playerOneName;
+      players[1].name = playerTwoName;
+      players[0].marker = playerOneMarker;
+      players[1].marker = playerTwoMarker;
+    }
 
     currentPlayer = players[0];
 
@@ -38,13 +59,13 @@ const tictactoe = (function () {
       playerTurn.textContent = `${currentPlayer.name}'s turn (${currentPlayer.marker})`;
     }
 
-    if (playerOneScore) {
+    if (playerOneScore && players[0]) {
       playerOneScore.textContent = `${players[0].name}'s score: ${players[0].score}`;
     }
 
-    if (playerTwoScore) {
+    if (playerTwoScore && players[1]) {
       playerTwoScore.textContent = `${players[1].name}'s score: ${players[1].score}`;
-    }
+    }finalP1Marker
 
     console.log("Players updated:");
     console.log(`${players[0].name} is P1 with marker ${players[0].marker}`);

@@ -99,20 +99,17 @@ body {
     display: none;
 }
 
-/* Styles each player's input row (label + input field) */
 #player-init div {
-    display: flex; /* Aligns label and input on the same line */
-    align-items: center; /* Vertically centers the label text with the input box */
-    margin-bottom: 10px; /* Space between Player 1's input row and Player 2's input row */
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 #player-init label {
-    margin-right: 10px; /* Space between the label text and the input field */
-    font-family: Arial, sans-serif; /* Choose a font that matches your game's text */
-    color: #333; /* A common dark grey for text, easily readable */
-    flex-shrink: 0; /* Prevents label from shrinking if input needs more space */
-    /* You could set a min-width if you want all labels to align the start of input boxes: */
-    /* min-width: 150px; */
+    margin-right: 10px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    flex-shrink: 0;
 }
 
 #player-init input[type="text"] {
@@ -123,9 +120,15 @@ body {
     width: 150px;
 }
 
-/* Optional: Add focus style to input fields for better UX */
+#player-init input#player1Marker[type="text"], #player-init input#player2Marker[type="text"] {
+    width: 35px;
+    text-align: center;
+    margin-left: 5px;
+
+}
+
 #player-init input[type="text"]:focus {
-    outline: none; /* Remove default browser outline */
-    border-color: #007bff; /* Example blue border on focus, like your button */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle glow on focus */
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
