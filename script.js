@@ -65,7 +65,7 @@ const tictactoe = (function () {
 
     if (playerTwoScore && players[1]) {
       playerTwoScore.textContent = `${players[1].name}'s score: ${players[1].score}`;
-    }finalP1Marker
+    }playerOneMarker
 
     console.log("Players updated:");
     console.log(`${players[0].name} is P1 with marker ${players[0].marker}`);
